@@ -11,7 +11,7 @@ app.listen(process.env.PORT || 8000, () => {
 });
 
 // connect to DB
-connectToDB();
+// connectToDB();
 
 // add middleware
 app.use(cors());
