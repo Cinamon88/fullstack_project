@@ -1,27 +1,30 @@
 const express = require('express');
+const cors = require('cors');
+const path = require('path');
+const connectToDB = require('./db');
+
+
+// start express server
 
 const app = express();
 
-app.get('/', (req, res) => {
-  res.send('<h1>My first server!</h1>');
-});
-
-app.get('/about', (req, res) => {
-  res.send('<h1>About</h1>');
-});
-
-app.get('/contact', (req, res) => {
-  res.send('<h1>Contact</h1>');
-});
-
-app.get('/info', (req, res) => {
-  res.send('<h1>Info</h1>');
-});
-
-app.get('/history', (req, res) => {
-  res.send('<h1>History</h1>');
-});
-
-app.listen(8000, () => {
+app.listen(process.env.PORT || 8000, () => {
   console.log('Server is running on port: 8000');
 });
+
+
+// connect to DB
+
+connectToDB();
+
+
+// add middleware
+
+app.use(cors());
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }))
+
+// serve static files from React App
+
+app.use(express.static(path.join(__dirname, '/client/build')))
+
