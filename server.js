@@ -22,9 +22,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '/client/build')));
 
 // add routes
-app.use('/api', require('./routes/ads.routes'));
-app.use('/api', require('./routes/users.routes'));
-app.use('/auth', require('./routes/auth.routes'));
+app.set('/api', require('./routes/ads.routes'));
+app.set('/api', require('./routes/users.routes'));
+app.set('/auth', require('./routes/auth.routes'));
 
 // at any other link just serve React App
 app.get('*', (req, res) => {
