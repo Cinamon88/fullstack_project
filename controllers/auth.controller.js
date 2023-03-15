@@ -1,4 +1,4 @@
-const User = require('../models/user.model');
+const User = require('../models/User.model');
 const bcrypt = require('bcryptjs')
 
 exports.register = async (req, res) => {
@@ -49,10 +49,5 @@ exports.login = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-    if (req.session.login){
-        res.send({ login: req.session.login });
-    } 
-    else {
-        res.status(400).send({ message: 'You are not authorized' });
-    }
-}
+    res.send('Yeah! I\'m logged');
+};
