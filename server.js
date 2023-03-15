@@ -2,7 +2,9 @@ const express = require('express');
 const cors = require('cors');
 const path = require('path');
 const connectToDB = require('./db');
-
+const adsRoutes = require('./routes/ads.routes');
+const authRoutes = require('./routes/auth.routes');
+const usersRoutes = require('./routes/users.routes')
 
 // start express server
 const app = express();
@@ -11,7 +13,7 @@ app.listen(process.env.PORT || 8000, () => {
 });
 
 // connect to DB
-// connectToDB();
+connectToDB();
 
 // add middleware
 app.use(cors());
@@ -22,9 +24,9 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, '/client/build')));
 
 // add routes
-app.set('/api', require('./routes/ads.routes'));
-app.set('/api', require('./routes/users.routes'));
-app.set('/auth', require('./routes/auth.routes'));
+app.set('/api', adsRoutes);
+app.set('/api', usersRoutes);
+app.set('/auth', authRoutes);
 
 // at any other link just serve React App
 app.get('*', (req, res) => {
