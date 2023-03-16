@@ -40,6 +40,7 @@ app.use(session({
 
 // serve static files from React App
 app.use(express.static(path.join(__dirname, '/client/build')));
+app.use(express.static(path.join(__dirname, '/public')));
 
 // add routes
 app.set('/api', require('./routes/ads.routes'));
