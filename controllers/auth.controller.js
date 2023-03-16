@@ -61,5 +61,18 @@ exports.login = async (req, res) => {
 };
 
 exports.getUser = async (req, res) => {
-    res.send('Yeah! I\'m logged');
+    try {
+      res.json(req.session.login);
+    } catch (err) {
+      res.status(500).json({ message: err.message });
+    }
+};
+
+exports.logout = async (req, res) => {
+    try {
+      req.session.destroy();
+      res.send('Goodbye!');
+    } catch (err) {
+      res.status(500).send({ message: err.message });
+    }
 };
