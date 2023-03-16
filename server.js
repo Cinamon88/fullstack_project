@@ -6,7 +6,6 @@ const session = require('express-session')
 const MongoStore = require('connect-mongo');
 const mongoose = require('mongoose');
 
-
 // start express server
 const app = express();
 app.listen(process.env.PORT || 8000, () => {
@@ -15,7 +14,6 @@ app.listen(process.env.PORT || 8000, () => {
 
 // connect to DB
 connectToDB();
-
 
 // add middleware
 if(process.env.NODE_ENV !== 'production') {
@@ -43,9 +41,8 @@ app.use(express.static(path.join(__dirname, '/client/build')));
 app.use(express.static(path.join(__dirname, '/public')));
 
 // add routes
-app.set('/api', require('./routes/ads.routes'));
-app.set('/api', require('./routes/users.routes'));
-app.set('/auth', require('./routes/auth.routes'));
+app.use('/api', require('./routes/ads.routes'));
+app.use('/auth', require('./routes/auth.routes'));
 
 // at any other link just serve React App
 app.get('*', (req, res) => {
