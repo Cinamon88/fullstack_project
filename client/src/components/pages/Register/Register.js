@@ -1,6 +1,9 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
+import { API_URL } from '../../../config';
+import { Alert } from 'react-bootstrap';
+import Spinner from 'react-bootstrap/Spinner';
 
 const Register = () => {
 
@@ -11,11 +14,48 @@ const Register = () => {
 
     const handleSubmit = e => {
         e.preventDefault();
+
+        const fd = new FormData();
+        fd.append('login', login);
+        fd.append('password', password);
+        fd.append('phone', phone);
+        fd.append('avatar', avatar);
+
+        const options = {
+            method: 'POST',
+            body: fd
+        };
+
+        fetch(`${API_URL}/auth/register`, options)
     };
 
     return (
         <Form className="col-12 col-sm-3 mx-auto">
             <h1 className='my-4'>Sign up</h1>
+
+            <Alert variant="success">
+                <Alert.Heading>Success!</Alert.Heading>
+                <p>You have been successfully registered! You can now log in...</p>
+            </Alert>
+
+            <Alert variant="danger">
+                <Alert.Heading>Something went wrong...</Alert.Heading>
+                <p>Unexpected error... Try again!</p>
+            </Alert>
+
+            <Alert variant="danger">
+                <Alert.Heading>No enough data</Alert.Heading>
+                <p>You have to fill all the fields.</p>
+            </Alert>
+
+            <Alert variant="warning">
+                <Alert.Heading>Login already in use</Alert.Heading>
+                <p>You have to use other login.</p>
+            </Alert>
+
+            <Spinner animation="border" role="status" className="block mx-auto">
+                <span className="visually-hiden">Loading...</span>
+            </Spinner>
 
             <Form.Group className='mb-3' controlId='formLogin' onSumbit={handleSubmit}>
                 <Form.Label>Login</Form.Label>
