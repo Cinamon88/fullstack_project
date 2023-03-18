@@ -29,6 +29,22 @@ const Register = () => {
 
         setStatus('loading');
         fetch(`${API_URL}/auth/register`, options)
+            .then(res => {
+                if (res.status === 201) {
+                    setStatus('success');
+                } else if (res.status === 400) {
+                    setStatus('clientError');
+                } 
+                else if (res.status === 409) {
+                    setStatus('loginError');
+                }
+                else {
+                    setStatus('serverError');
+                }
+            })
+            .catch(err => {
+                setStatus('serverError');
+            })
     };
 
     return (
@@ -62,10 +78,12 @@ const Register = () => {
                 <p>You have to use other login.</p>
             </Alert>
             )}
-            
+
+            {status === 'loading' && (
             <Spinner animation="border" role="status" className="block mx-auto">
                 <span className="visually-hiden">Loading...</span>
             </Spinner>
+            )}
 
             <Form.Group className='mb-3' controlId='formLogin' onSumbit={handleSubmit}>
                 <Form.Label>Login</Form.Label>
