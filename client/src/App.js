@@ -1,5 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import { Container } from "react-bootstrap";
+import Header from './components/views/Header/Header';
+import Footer from './components/views/Footer/Footer';
 import Home from './components/pages/Home/Home';
 import Ad from './components/pages/Ad/Ad';
 import AdAdd from './components/pages/AdAdd/AdAdd';
