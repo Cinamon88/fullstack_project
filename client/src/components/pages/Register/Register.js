@@ -11,6 +11,7 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [phone, setPhone] = useState('');
     const [avatar, setAvatar] = useState(null);
+    const [status, setStatus] = useState(null)   // status, loading, success, serverError, clientError, loginError 
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -26,6 +27,7 @@ const Register = () => {
             body: fd
         };
 
+        setStatus('loading');
         fetch(`${API_URL}/auth/register`, options)
     };
 
@@ -33,26 +35,34 @@ const Register = () => {
         <Form className="col-12 col-sm-3 mx-auto">
             <h1 className='my-4'>Sign up</h1>
 
+            {status === 'success' && (
             <Alert variant="success">
                 <Alert.Heading>Success!</Alert.Heading>
                 <p>You have been successfully registered! You can now log in...</p>
             </Alert>
+            )}
 
+            {status === 'serverError' && (
             <Alert variant="danger">
                 <Alert.Heading>Something went wrong...</Alert.Heading>
                 <p>Unexpected error... Try again!</p>
             </Alert>
+            )}
 
+            {status === 'clientError' && (
             <Alert variant="danger">
                 <Alert.Heading>No enough data</Alert.Heading>
                 <p>You have to fill all the fields.</p>
             </Alert>
+            )}
 
+            {status === 'loginError' && (
             <Alert variant="warning">
                 <Alert.Heading>Login already in use</Alert.Heading>
                 <p>You have to use other login.</p>
             </Alert>
-
+            )}
+            
             <Spinner animation="border" role="status" className="block mx-auto">
                 <span className="visually-hiden">Loading...</span>
             </Spinner>
