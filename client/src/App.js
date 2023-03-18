@@ -13,7 +13,7 @@ import NotFound from './components/pages/NotFound/NotFound';
 
 
 const App = () => {
-  return {
+  return (
     <main>
       <Container>
         <Header />
@@ -32,7 +32,7 @@ const App = () => {
         <Footer />
       </Container>
     </main>
-  };
+  );
 };
 
 export default App;
