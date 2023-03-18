@@ -1,6 +1,7 @@
 // actions
 const createActionName = (actionName) => `app/users/${actionName}`;
 const LOG_IN = createActionName('LOG_IN');
+const LOG_OUT = createActionName('LOG_IN');
 
 // action creators
 export const logIn = payload => ({
@@ -8,11 +9,17 @@ export const logIn = payload => ({
     payload
 });
 
+export const logOut = () => ({
+    type: LOG_OUT,
+});
+
 
 const usersReducer = (statePart = null, action) => {
     switch (action.type) {
         case LOG_IN:
             return action.payload;
+        case LOG_OUT:
+            return null
         default:
             return statePart;
     }
