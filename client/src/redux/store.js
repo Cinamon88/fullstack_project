@@ -4,8 +4,9 @@ import adsReducer from './adsRedux';
 import initialState from './initialState';
 import usersReducer from './usersRedux';
 
+
 const subreducers = {
-  users: usersReducer,
+  user: usersReducer,
   ads: adsReducer,
 };
 
