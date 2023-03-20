@@ -1,10 +1,12 @@
 import { createStore, combineReducers, applyMiddleware, compose } from 'redux';
 import thunk from 'redux-thunk';
+import adsReducer from './adsRedux';
 import initialState from './initialState';
 import usersReducer from './usersRedux';
 
 const subreducers = {
   users: usersReducer,
+  ads: adsReducer,
 };
 
 const reducer = combineReducers(subreducers);
