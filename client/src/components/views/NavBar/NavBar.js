@@ -1,25 +1,23 @@
-import { Container, Navbar, Nav } from "react-bootstrap";
+import { Navbar, NavbarBrand, Nav } from "react-bootstrap";
 import { NavLink } from "react-router-dom";
 
 
 const NavBar = () => {
     return (
-        <NavBar className="mt-4 mb-4 rounded">
-            <Container>
-                <Navbar.Brand>Ads.app</Navbar.Brand>
-                <Navbar.Collapse id="responsive-navbar-nav">
-                    <Nav className="justify-content-end flex-grow-1 pe-3">
-                        <Nav.Link to="/" as={NavLink}>
-                            Home
-                        </Nav.Link>
-                        <Nav.Link to="/logout" as={NavLink}>
-                            Sign Out
-                        </Nav.Link>
-                    </Nav>
-                </Navbar.Collapse>
-            </Container>
-        </NavBar>
+        <Navbar bg="primary" variant="dark" expand="lg" className="mt-4 mb-4 rounded d-flex justify-content-between">
+            <NavbarBrand className="justify-content-start px-3" href="/">Ads.app</NavbarBrand>
+                <Nav className="flex-sm-column flex-md-row px-3">
+                    <Nav.Link className="px-1" to="/" as={NavLink}>
+                        Home
+                    </Nav.Link>
+                    <Nav.Link className="px-1" to="/logout" as={NavLink}>
+                        Sign Out
+                    </Nav.Link>
+                </Nav>
+        </Navbar>
     );
 }
 
 export default NavBar;
+
+

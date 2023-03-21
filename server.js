@@ -19,7 +19,7 @@ connectToDB();
 if(process.env.NODE_ENV !== 'production') {
   app.use(
     cors({
-      origin: ['http://localhost:3000'],
+      origin: ['http://localhost:3000', 'http://localhost:8000'],
       credentials: true,
     })
   );
@@ -32,7 +32,7 @@ app.use(session({
   resave: false, 
   saveUninitialized: false,
   cookie: {
-    secure: process.env.NODE_ENV == 'production',
+    secure: process.env.NODE_ENV === 'production',
   },
 }));
 
@@ -46,7 +46,7 @@ app.use('/auth', require('./routes/auth.routes'));
 
 // at any other link just serve React App
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname + '/client/build/index.html'));
+  res.sendFile(path.join(__dirname, '/client/build/index.html'));
 });
 
 app.use((req, res) => {

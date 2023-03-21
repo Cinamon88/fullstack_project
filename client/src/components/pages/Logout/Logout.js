@@ -1,4 +1,4 @@
-import { API_URL } from "../../../config";
+import { API_URL } from '../../../../src/config';
 import { logOut } from "../../../redux/usersRedux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";

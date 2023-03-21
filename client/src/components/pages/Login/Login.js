@@ -1,7 +1,7 @@
 import Form from 'react-bootstrap/Form';
 import Button from 'react-bootstrap/Button';
 import { useState } from 'react';
-import { API_URL } from '../../../config';
+import { API_URL } from '../../../../src/config';
 import { Alert } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch } from 'react-redux';
