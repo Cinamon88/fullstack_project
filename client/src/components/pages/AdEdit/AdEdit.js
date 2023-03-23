@@ -1,8 +1,8 @@
+import EditAds from "../../features/EditAd/EditAd"
+
 const AdEdit = () => {
     return (
-        <div>
-            <h1>AdEdit</h1>
-        </div>
+        <EditAds />
     );
 }
 
