@@ -1,6 +1,6 @@
 
 // selectors
-export const getAllUsers = ({ user }) => user;
+export const getUser = ({ user }) => user;
 
 // actions
 const createActionName = (actionName) => `app/users/${actionName}`;
