@@ -1,0 +1,19 @@
+@import '../../../styles/settings.scss';
+
+.nav_links {
+    
+    margin: 0;
+    list-style: none;
+    display: inline-flex;
+    padding: 10px;
+
+    a {
+      text-decoration: none;
+      color: white;
+      padding: 10px;
+    }
+
+    a.linkActive {
+      color: grey;
+    }
+}
