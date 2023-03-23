@@ -1,0 +1,10 @@
+@import '../../../styles/settings.scss';
+
+.footer {
+  text-align: center;
+  background-color: $background;
+  color: $text;
+  font-weight: 400;
+  padding: 15px;
+  margin-top: 30px;
+}

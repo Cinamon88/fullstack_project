@@ -1,6 +1,8 @@
+import styles from "../Footer/Footer.module.scss";
+
 const Footer = () => {
     return (
-        <div className="text-center text-muted p-4">Copyright &copy; Add.app 2023</div>
+        <div className={styles.footer}>Copyright &copy; Ads.app 2023</div>
     );
 };
 
