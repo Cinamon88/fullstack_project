@@ -16,15 +16,16 @@ app.listen(process.env.PORT || 8000, () => {
 connectToDB();
 
 // add middleware
+app.use(express.json());
 if(process.env.NODE_ENV !== 'production') {
   app.use(
     cors({
-      origin: ['http://localhost:3000', 'http://localhost:8000'],
+      origin: ['http://localhost:3000'],
       credentials: true,
     })
   );
 }
-app.use(express.json());
+
 app.use(express.urlencoded({ extended: false }));
 app.use(session({ 
   secret: process.env.secret, 
@@ -42,7 +43,7 @@ app.use(express.static(path.join(__dirname, '/public')));
 
 // add routes
 app.use('/api', require('./routes/ads.routes'));
-app.use('/auth', require('./routes/auth.routes'));
+app.use('/api/auth', require('./routes/auth.routes'));
 
 // at any other link just serve React App
 app.get('*', (req, res) => {
