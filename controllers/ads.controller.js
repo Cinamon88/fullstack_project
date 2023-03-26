@@ -19,14 +19,36 @@ exports.getAdById = async (req, res) => {
 };
 
 exports.postAd = async (res, req) => {
+    const { title, content, date, price, location } = req.body;
+    const photo = req.file;
+
     try {
-        const { title, description, date, image, price, localization, user } = req.body;
-        const newAd = new Ads({ title, description, date, image, price, localization, user });
-        await newAd.save();
-        res.json({ message: 'OK' });
+        const fileType = photo ? await getImageFileType(photo) : 'unknown'
+
+        if (
+            title && content && date &&
+            price && location && photo &&
+            ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)
+        ) {
+            const newAd = new Ad({
+                title: title,
+                content: content,
+                date: date,
+                price: price,
+                location: location,
+                photo: photo.filename,
+                user: req.session.user
+            });
+            await newAd.save();
+            res.json({ message: 'Created new ad' });
+        } else {
+            fs.unlinkSync(`./public/uploads/${photo.filename}`);
+            res.status(400).send({ message: 'Bad request' });
+        }
     } catch (err) {
-        res.status(500).json({ message: err });
-    };
+        fs.unlinkSync(`./public/uploads/${photo.filename}`);
+        res.status(500).send({ message: err.message });
+    }
 };
 
 exports.deleteAd = async (res, req) => {
