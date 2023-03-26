@@ -4,9 +4,6 @@ import { useState } from 'react';
 import { API_URL } from '../../../config';
 import { Alert } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
-import { useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { logIn } from '../../../redux/usersRedux';
 
 const Register = () => {
 
@@ -14,9 +11,7 @@ const Register = () => {
     const [password, setPassword] = useState('');
     const [phone, setPhone] = useState('');
     const [avatar, setAvatar] = useState(null);
-    const [status, setStatus] = useState(null)   // status, loading, success, serverError, clientError, loginError
-    const dispatch = useDispatch();
-    const navigate = useNavigate(); 
+    const [status, setStatus] = useState(null)   // status, loading, success, serverError, clientError, loginError 
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -29,40 +24,38 @@ const Register = () => {
 
         const options = {
             method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            credentials: 'include',
-            body: JSON.stringify({ login, password }),
-          };
-          setStatus('loading');
-          fetch(`${API_URL}/auth/login`, options)
-            .then((res) => {
-              if (res.status === 200) {
-                setStatus('success');
-                dispatch(logIn({ login }));
-                setTimeout(() => {
-                  navigate('/');
-                }, 3000);
-              } else if (res.status === 400) {
-                setStatus('clientError');
-              } else {
-                setStatus('serverError');
-              }
+            body: fd
+        };
+
+        setStatus('loading');
+        fetch(`${API_URL}/auth/register`, options)
+            .then(res => {
+                if (res.status === 201) {
+                    setStatus('success');
+                } else if (res.status === 400) {
+                    setStatus('clientError');
+                } 
+                else if (res.status === 409) {
+                    setStatus('loginError');
+                }
+                else {
+                    setStatus('serverError');
+                }
             })
-            .catch((err) => {
-              setStatus('serverError');
-            });
+            .catch(err => {
+                setStatus('serverError');
+            })
     };
 
     return (
-        <Form className="col-12 col-sm-3 mx-auto mt-3" onSubmit={handleSubmit}>
-            <h1 className="my-4">Log in</h1>
+        <Form className="col-12 col-sm-3 mx-auto" onSubmit={handleSubmit}>
+            <h1 className='my-4'>Sign up</h1>
+
             {status === 'success' && (
-                <Alert variant="success">
-                    <Alert.Heading>Success!</Alert.Heading>
-                        <p>You have been successfully logged in!</p>
-                    </Alert>
+            <Alert variant="success">
+                <Alert.Heading>Success!</Alert.Heading>
+                <p>You have been successfully registered! You can now log in...</p>
+            </Alert>
             )}
 
             {status === 'serverError' && (
