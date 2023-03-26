@@ -1,16 +1,11 @@
 @import '../../../styles/settings.scss';
 
-.card_wrapper {
-  background-color: $adBoxBg;
-  border-style: none;
-  height: 100%;
+.avatar {
+  height: 120px;
+  width: 120px;
+  border-radius: 50%;
 }
 
-.body {
-  height: 8rem;
-}
-
-.card_image {
-  height: 30rem;
-  object-fit: cover;
+.button {
+  margin-left: 35%;
 }
