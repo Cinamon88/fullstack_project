@@ -6,6 +6,7 @@ import { Alert } from 'react-bootstrap';
 import Spinner from 'react-bootstrap/Spinner';
 import { useDispatch } from 'react-redux';
 import { logIn } from '../../../redux/usersRedux';
+import { useNavigate } from 'react-router-dom';
 
 const Login = () => {
 
@@ -13,6 +14,7 @@ const Login = () => {
     const [password, setPassword] = useState('');
     const [status, setStatus] = useState(null)   // status, loading, success, serverError, clientError
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleSubmit = e => {
         e.preventDefault();
@@ -20,32 +22,34 @@ const Login = () => {
         const options = {
             method: 'POST',
             headers: {
-                'Content-Type': 'application/json'
+              'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ login, password })
-        };
-
-        setStatus('loading');
-        fetch(`${API_URL}/auth/login`, options)
-            .then(res => {
-                if (res.status === 201) {
-                    setStatus('success');
-                    dispatch(logIn({ login }));
-                } else if (res.status === 400) {
-                    setStatus('clientError');
-                } 
-                else {
-                    setStatus('serverError');
-                }
-            })
-            .catch(err => {
+            credentials: 'include',
+            body: JSON.stringify({ login, password }),
+          };
+          setStatus('loading');
+          fetch(`${API_URL}/auth/login`, options)
+            .then((res) => {
+              if (res.status === 200) {
+                setStatus('success');
+                dispatch(logIn({ login }));
+                setTimeout(() => {
+                  navigate('/');
+                }, 3000);
+              } else if (res.status === 400) {
+                setStatus('clientError');
+              } else {
                 setStatus('serverError');
+              }
             })
+            .catch((err) => {
+              setStatus('serverError');
+            });
     }
 
     return (
-        <Form className="col-12 col-sm-3 mx-auto">
-            <h1 className='my-4'>Sign in</h1>
+        <Form className="col-12 col-sm-3 mx-auto mt-3" onSubmit={handleSubmit}>
+            <h1 className="my-4">Log in</h1>
 
             {status === 'success' && (
             <Alert variant="success">
