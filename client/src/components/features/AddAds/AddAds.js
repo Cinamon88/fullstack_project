@@ -1,43 +1,37 @@
 import React from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { API_URL } from '../../../config';
-import { addAd, updateAds } from '../../../redux/adsRedux';
 import AdForm from '../AdForm/AdForm';
-import { getUserId } from '../../../redux/userData';
+import { addAd, updateAds } from '../../../redux/adsRedux';
+import { API_URL } from '../../../config';
 
 const AddAds = () => {
-  const navigate = useNavigate();
   const dispatch = useDispatch();
-  const userId = useSelector(getUserId);
+  let navigate = useNavigate();
 
   const handleSubmit = (ad) => {
-    const fd = new FormData();
-    fd.append('title', ad.title);
-    fd.append('description', ad.description);
-    fd.append('date', ad.date);
-    fd.append('price', ad.price);
-    fd.append('localization', ad.localization);
-    fd.append('phoneNumber', ad.phoneNumber);
-    fd.append('image', ad.image);
-    fd.append('user', ad.user);
 
+    const formData = new FormData();
+    formData.append('title', ad.title);
+    formData.append('description', ad.description);
+    formData.append('price', ad.price);
+    formData.append('image', ad.image);
+    formData.append('location', ad.location);
+    formData.append('date', ad.date);
+    formData.append('user', ad.user);
+    formData.append('phone', ad.phone);
 
     const options = {
       method: 'POST',
-      body: fd,
-      credentials: 'include',
+      body: formData,
     };
-    fetch(API_URL + `/api/ads`, options).then((res) => {
-      if (res.status === 200) {
-        dispatch(addAd(ad));
-        dispatch(updateAds())
-        navigate('/')
-      }
-    });
+    fetch(`${API_URL}/ads`, options);
+    dispatch(addAd(ad));
+    dispatch(updateAds());
+    navigate('/');
   };
 
-  return <AdForm action={handleSubmit} actionText="Add" userId={userId} />;
+  return <AdForm action={handleSubmit} actionText='Add new ad' />;
 };
 
 export default AddAds;

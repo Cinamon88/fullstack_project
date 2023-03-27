@@ -20,7 +20,7 @@ const EditAds = () => {
     fd.append('description', ad.description);
     fd.append('date', ad.date);
     fd.append('price', ad.price);
-    fd.append('localization', ad.localization);
+    fd.append('location', ad.location);
     fd.append('phoneNumber', ad.phoneNumber);
     fd.append('image', ad.image);
     fd.append('user', ad.user);
@@ -44,7 +44,7 @@ const EditAds = () => {
       actionText="Edit"
       price={adData.price}
       title={adData.title}
-      localization={adData.localization}
+      location={adData.location}
       description={adData.description}
       date={adData.date}
       image={adData.image}

@@ -6,12 +6,11 @@ import SearchBar from '../../features/SearchBar/SearchBar';
 import { API_URL } from '../../../config';
 import Spinner from '../../features/Spinner/Spinner';
 import { useParams } from 'react-router-dom';
-import ShowAds from '../../features/ShowAds/ShowAds';
+import AdBox from '../../features/AdBox/AdBox'
 
 const Search = () => {
   const { searchId } = useParams();
   const [data, setData] = useState([]);
-  // const [url, setUrl] = useState(API_URL + '/api/ads/search/')
   const [loading, setLoading] = useState(false);
 
   const fetchData = async () => {
@@ -31,13 +30,13 @@ const Search = () => {
     <>
       {' '}
       <SearchBar />
-      {data.length === 0 && <h1>Something went wrong.Try again</h1>}
+      {data.length === 0 && <h3>Something went wrong. Try again</h3>}
       {loading && <Spinner />}
       {!loading && (
         <Row xs={1} md={3} className="g-3 ">
           {data.map((ad) => (
             <Col key={ad._id}>
-              <ShowAds {...ad} />
+              <AdBox {...ad} />
             </Col>
           ))}
         </Row>

@@ -1,89 +1,91 @@
-import React, { useState } from 'react';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
-import Button from 'react-bootstrap/Button';
-import Card from 'react-bootstrap/Card';
-import { API_URL, IMGS_URL } from '../../../config';
-import { useNavigate, useParams } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import { getAdById, updateAds } from '../../../redux/adsRedux';
-import styles from './Ad.module.scss';
-import { Link } from 'react-router-dom';
-import AdDelete from '../../features/AdDelete/AdDelete';
-import { getUserId } from '../../../redux/userData';
+import styles from "./Ad.module.scss";
+import { useSelector } from "react-redux";
+import { Link, Navigate, useNavigate, useParams } from "react-router-dom";
+import { IMGS_URL, API_URL } from "../../../config";
+import { getAdById, getAllAds } from "../../../redux/adsRedux";
+import { Button, Col, Row, Modal } from "react-bootstrap";
+import React, { useState } from "react";
+import { getUser } from "../../../redux/usersRedux";
+
 
 const Ad = () => {
   const navigate = useNavigate();
+  const { id } = useParams();
+  const ad = useSelector(state => getAdById(state, id));
+  const user = useSelector(getUser);
 
-  const adId = useParams();
-  const id = adId.id;
-  const adData = useSelector((state) => getAdById(state, id));
-  const userId = useSelector(getUserId);
+  const [modal, setModal] = useState(false);
+  const toggle = () => setModal(!modal);
 
-  const [showAd, setShowAd] = useState(false);
-  const handleClose = () => setShowAd(false);
-  const handleShow = () => setShowAd(true);
-
-  const handleDelete = (e) => {
+  const handleRemoveAd = e => {
     e.preventDefault();
+
     const options = {
       method: 'DELETE',
       credentials: 'include',
     };
-    fetch(API_URL + '/api/ads/' + id, options);
-    updateAds();
+    fetch(`${API_URL}/ads/${ad._id}`, options)
+      .then(res => {
+        getAllAds();
+      });
+
+    toggle();
     navigate('/');
   };
-  return (
-    <div>
-      <Row className="d-flex justify-content-center mt-5">
-        {showAd && (
-          <AdDelete
-            showAd={showAd}
-            handleClose={handleClose}
-            handleDelete={handleDelete}
-          />
-        )}
-        ;
-        <Col xs="12" lg="5">
-          <Card className={styles.card_wrapper}>
-            <Card.Img variant="top" src={IMGS_URL + adData.image} />
 
-            <Card.Body>
-              <Card.Title className="mb-3">Price: {adData.price}$</Card.Title>
-              <Card.Subtitle className="mb-3">
-                <b>Title: {adData.title}</b>
-              </Card.Subtitle>
-              <Card.Text className="mb-3">
-                <b>Localization: {adData.localization}</b>
-              </Card.Text>
-              <Card.Text>{adData.description}</Card.Text>
-              <Card.Text>Published: {adData.date}</Card.Text>
-              <Card.Text>Author: {adData.user.login}</Card.Text>
-              <Card.Text>
-                Avatar:{' '}
-                <img
-                  className={styles.avatar}
-                  src={IMGS_URL + adData.user.avatar}
-                  alt="user avatar"
-                />
-              </Card.Text>
-              <Card.Text>Phone number: {adData.user.phoneNumber}</Card.Text>
-            </Card.Body>
-            {userId === adData.user._id && (
-              <Col className={styles.button} xs="12" lg="4">
-                <Link to={'/ads/edit/' + id}>
-                  <Button variant="outline-info" className="m-2">
-                    Edit
-                  </Button>
-                </Link>
-                <Button variant="outline-danger" onClick={handleShow}>
-                  Delete
-                </Button>
-              </Col>
-            )}
-          </Card>
+  if(!ad) return <Navigate to='/' />
+  if(user === null) return (<h1 className='text-center mt-5'>You must be logged...</h1>)
+  else return (
+    <div className={styles.adBox}>
+      <Row>
+
+        { user.id === ad.user._id &&
+          <div className={`mt-4 ${styles.adButtons}`}>
+            <Link to={`/ads/edit/${id}`}><Button variant='secondary' className='mx-3'>Edit</Button></Link>
+            <Button variant='danger' onClick={toggle}>Delete</Button>
+          </div>
+        }
+
+        <Modal show={modal} onHide={toggle}>
+          <Modal.Header closeButton>
+            <Modal.Title>Are you sure?</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            This operation will completely remove this post from the app.<br></br>
+            Are you sure you want to do that?
+          </Modal.Body>
+          <Modal.Footer>
+            <Button variant="secondary" onClick={toggle}>
+              Cancel
+            </Button>
+            <Button variant="danger" onClick={handleRemoveAd}>Remove</Button>
+          </Modal.Footer>
+        </Modal>
+
+        <h2 className='mt-3'>{ad.title}</h2>
+
+        <Col>
+          <img src={IMGS_URL + ad.photo} className={styles.adPhoto} alt='product' />
         </Col>
+
+        <Col>
+          <Row>
+            <Col className='mt-5'>
+              <p>Price: {ad.price}$</p>
+              <p>Location: {ad.location}</p>
+              <p>Date added: {ad.date}</p>
+            </Col>
+            <Col>
+              <p>Seller:</p>
+              <img src={IMGS_URL + ad.user.avatar} className={styles.userAvatar} alt='avatar' />
+              <p className='mt-2'>{ad.user.login}</p>
+              <p>{ad.user.phone}</p>
+            </Col>
+          </Row>
+        </Col>
+
+        <p className='mt-3'>{ad.content}</p>
+
       </Row>
     </div>
   );

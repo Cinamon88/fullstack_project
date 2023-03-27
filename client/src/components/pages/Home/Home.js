@@ -2,12 +2,11 @@ import React, { useState } from 'react';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Spinner from '../../features/Spinner/Spinner';
-import ShowAds from '../../features/ShowAds/ShowAds';
 import SearchBar from '../../features/SearchBar/SearchBar';
 import { API_URL } from '../../../config';
 import { updateAds } from '../../../redux/adsRedux';
 import { getUser } from '../../../redux/usersRedux';
-import { updateData } from '../../../redux/userData';
+import AdBox from '../../features/AdBox/AdBox';
 
 const Home = () => {
   const [pending, setPending] = useState(false);
@@ -20,7 +19,7 @@ const Home = () => {
       fetch(API_URL + '/auth/user/' + user.login).then((res) => {
         if (res.status === 200) {
           return res.json().then((data) => {
-            dispatch(updateData(data._id));
+            dispatch(getUser(data._id));
           });
         }
       });
@@ -29,7 +28,7 @@ const Home = () => {
 
   const handleUpdate = () => {
     setPending(true);
-    fetch(API_URL + '/api/ads').then((res) => {
+    fetch(API_URL + '/ads').then((res) => {
       if (res.status === 200) {
         return res.json().then((ads) => {
           dispatch(updateAds(ads));
@@ -43,7 +42,7 @@ const Home = () => {
     <>
       <SearchBar />
       {pending && <Spinner />}
-      {!pending && <ShowAds />}
+      {!pending && <AdBox />}
     </>
   );
 };
