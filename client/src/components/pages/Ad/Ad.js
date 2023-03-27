@@ -10,12 +10,10 @@ import { getAdById, updateAds } from '../../../redux/adsRedux';
 import styles from './Ad.module.scss';
 import { Link } from 'react-router-dom';
 import AdDelete from '../../features/AdDelete/AdDelete';
-import { getUser } from '../../../redux/usersRedux';
 import { getUserId } from '../../../redux/userData';
 
 const Ad = () => {
   const navigate = useNavigate();
-  const user = useSelector(getUser);
 
   const adId = useParams();
   const id = adId.id;

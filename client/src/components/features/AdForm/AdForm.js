@@ -1,139 +1,100 @@
-import React, { useState } from 'react';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
-import { useForm } from 'react-hook-form';
+import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import { Form } from "react-bootstrap";
+import Button from "react-bootstrap/Button";
+import { useNavigate } from "react-router-dom";
 
 const AdForm = ({ action, actionText, ...props }) => {
-  const updateDate = new Date();
-
   const id = props.id;
-  const [price, setPrice] = useState(props.price || '');
   const [title, setTitle] = useState(props.title || '');
-  const [localization, setLocalization] = useState(props.localization || '');
-  const [description, setDescription] = useState(props.description || '');
-  const [date, setDate] = useState(props.date || updateDate);
-  const [image, setImage] = useState(props.image || '');
-  const [phoneNumber, setPhone] = useState(props.phoneNumber || '');
-  const {
-    register,
-    handleSubmit: validate,
-    formState: { errors },
-  } = useForm();
+  const [content, setContent] = useState(props.content || '');
+  const [photo, setPhoto] = useState(props.photo || null);
+  const [price, setPrice] = useState(props.price || '');
+  const [location, setLocation] = useState(props.location || '');
+
+  const dateNow = new Date(Date.now());
+  const date = dateNow.toLocaleDateString();
+
+  const navigate = useNavigate();
+
+  const { register, handleSubmit: validate, formState: { errors } } = useForm();
 
   const handleSubmit = () => {
-    if (description && date) {
-      action({
-        price,
-        title,
-        user: props.user,
-        date: date,
-        description,
-        localization,
-        id,
-        image,
-        phoneNumber,
-      });
-    }
+    action({ title, content, photo, price, location, date, id });
+    navigate('/');
   };
 
   return (
-    <Form
-      className="col-12 col-sm-3 mx-auto mt-3"
-      onSubmit={validate(handleSubmit)}
-    >
-      <h1 className="my-4">{actionText} Ads</h1>
-      <Form.Group className="mb-3" controlId="formPrice">
+    <Form onSubmit={validate(handleSubmit)}>
+      <h1>{actionText} Ad</h1>
+      <Form.Group>
+        <Form.Label>Title</Form.Label>
+        <Form.Control
+          {...register('title', { required: true, minLength: 10, maxLength: 50 })}
+          type='text'
+          value={title}
+          onChange={e => setTitle(e.target.value)}
+        />
+        {errors.title &&
+          <small className='d-block form-text text-danger mt-2'>
+            This field is required and should contain between 10 and 50 characters
+          </small>
+        }
+      </Form.Group>
+      <Form.Group>
+        <Form.Label>Location</Form.Label>
+        <Form.Control
+          {...register('location', { required: true })}
+          type='text'
+          value={location}
+          onChange={e => setLocation(e.target.value)}
+        />
+        {errors.location &&
+          <small className='d-block form-text text-danger mt-2'>
+            This field is required
+          </small>
+        }
+      </Form.Group>
+      <Form.Group>
         <Form.Label>Price</Form.Label>
         <Form.Control
           {...register('price', { required: true })}
-          type="number"
+          type='number'
           value={price}
-          placeholder="Enter price"
-          onChange={(e) => setPrice(e.target.value)}
+          onChange={e => setPrice(e.target.value)}
         />
-        {errors.price && (
-          <small className="d-block form-text text-danger mt-2">
-            This field is required and accept only numbers.
+        {errors.price &&
+          <small className='d-block form-text text-danger mt-2'>
+            This field is required and accept only numbers
           </small>
-        )}
+        }
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formTitle">
-        <Form.Label>Title</Form.Label>
+      <Form.Group>
+        <Form.Label>Content</Form.Label>
         <Form.Control
-          {...register('title', {
-            required: true,
-            minLength: 10,
-            maxLength: 50,
-          })}
-          value={title}
-          type="text"
-          placeholder="Enter title"
-          onChange={(e) => setTitle(e.target.value)}
+          {...register('content', { required: true, minLength: 20, maxLength: 1000})}
+          as='textarea'
+          rows='8'
+          type='text'
+          value={content}
+          onChange={e => setContent(e.target.value)}
         />
-        {errors.title && (
-          <small className="d-block form-text text-danger mt-2">
-            This field is required and has to be between 10 to 50 characters
-            long.
+        {errors.content &&
+          <small className='d-block form-text text-danger mt-2'>
+            This field is required and should contain between 20 and 1000 characters
           </small>
-        )}
+        }
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formLocalization">
-        <Form.Label>Localization</Form.Label>
+      <Form.Group>
+        <Form.Label>Add photo</Form.Label>
         <Form.Control
-          {...register('localization', {
-            required: true,
-            minLength: 2,
-          })}
-          value={localization}
-          type="text"
-          placeholder="Enter localization"
-          onChange={(e) => setLocalization(e.target.value)}
-        />
-        {errors.localization && (
-          <small className="d-block form-text text-danger mt-2">
-            This field is required.
-          </small>
-        )}
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formDescription">
-        <Form.Label>Description</Form.Label>
-        <Form.Control
-          {...register('description', {
-            required: true,
-            minLength: 20,
-            maxLength: 1000,
-          })}
-          value={description}
-          as="textarea"
-          rows="5"
-          placeholder="Enter description"
-          onChange={(e) => setDescription(e.target.value)}
-        />
-        {errors.description && (
-          <small className="d-block form-text text-danger mt-2">
-            This field is required and has to be between 20 to 1000 characters
-            long.
-          </small>
-        )}
-      </Form.Group>
-      <Form.Group className="mb-3" controlId="formPhone">
-        <Form.Label>Phone number</Form.Label>
-        <Form.Control
-          type="tel"
-          value={phoneNumber}
-          onChange={(e) => setPhone(e.target.value)}
-          placeholder="Phone number"
+          type='file'
+          onChange={e => setPhoto(e.target.files[0])}
         />
       </Form.Group>
-      <Form.Group className="mb-3" controlId="formFile">
-        <Form.Label>Add image</Form.Label>
-        <Form.Control
-          type="file"
-          onChange={(e) => setImage(e.target.files[0])}
-        />
-      </Form.Group>
-      <Button className="mt-3" as="input" type="submit" value="Submit"></Button>{' '}
+      <Button type='submit' as='input' value='Submit' className='mt-3' variant='secondary'></Button>
     </Form>
   );
 };
+
 export default AdForm;

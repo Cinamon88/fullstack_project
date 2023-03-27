@@ -1,5 +1,6 @@
 // selectors
 export const getUserId = ({ userData }) => userData;
+
 // actions
 const createActionName = (actionName) => `app/user/${actionName}`;
 const UPDATE_DATA = createActionName('UPDATE_ADS');
