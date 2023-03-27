@@ -20,7 +20,7 @@ exports.getAdById = async (req, res) => {
   }
 };
 
-exports.newAdd = async (req, res) => {
+exports.createNewAd = async (req, res) => {
   const { title, content, date, price, location } = req.body;
   const photo = req.file;
 
@@ -53,7 +53,7 @@ exports.newAdd = async (req, res) => {
   }
 };
 
-exports.editAdd = async (req, res) => {
+exports.editAd = async (req, res) => {
   try {
     const { title, content, date, price, location } = req.body;
     const photo = req.file;
@@ -79,7 +79,7 @@ exports.editAdd = async (req, res) => {
   }
 };
 
-exports.removeAdd = async (req, res) => {
+exports.removeAd = async (req, res) => {
   try {
     const ad = await Ad.findById(req.params.id);
     if (ad) {

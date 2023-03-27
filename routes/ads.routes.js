@@ -6,9 +6,9 @@ const imageUpload = require('../utils/imageUpload');
 
 router.get('/ads', ad.getAllAds);
 router.get('/ads/:id', ad.getAdById);
-router.post('/ads', authMiddleware, imageUpload.single('photo'), ad.newAdd);
-router.put('/ads/:id', authMiddleware, imageUpload.single('photo'), ad.editAdd);
-router.delete('/ads/:id', authMiddleware, ad.removeAdd);
+router.post('/ads', authMiddleware, imageUpload.single('photo'), ad.createNewAd);
+router.put('/ads/:id', authMiddleware, imageUpload.single('photo'), ad.editAd);
+router.delete('/ads/:id', authMiddleware, ad.removeAd);
 router.get('/ads/search/:searchPhrase', ad.searchPhrase);
 
 module.exports = router;
