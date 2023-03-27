@@ -28,7 +28,7 @@ const AddAds = () => {
       body: fd,
       credentials: 'include',
     };
-    fetch(`${API_URL}/ads`, options).then((res) => {
+    fetch(API_URL + `/api/ads`, options).then((res) => {
       if (res.status === 200) {
         dispatch(addAd(ad));
         dispatch(updateAds())

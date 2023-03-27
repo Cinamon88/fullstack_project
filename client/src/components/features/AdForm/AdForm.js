@@ -92,7 +92,7 @@ const AdForm = ({ action, actionText, ...props }) => {
           onChange={e => setPhoto(e.target.files[0])}
         />
       </Form.Group>
-      <Button type='submit' as='input' value='Submit' className='mt-3' variant='secondary'></Button>
+      <Button type='submit' as='input' value='Submit' className='mt-3' variant='warning'></Button>
     </Form>
   );
 };

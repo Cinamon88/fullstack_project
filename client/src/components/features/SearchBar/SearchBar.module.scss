@@ -6,8 +6,9 @@
 }
   
 .input {
-    height: 34px;
-    margin-left: 5px;
+    height: 35px;
+    margin: 5px;
+    padding: 2px;
     &:active,
     &:focus {
       outline: none;

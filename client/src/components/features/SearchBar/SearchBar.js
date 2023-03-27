@@ -11,14 +11,14 @@ const SearchBar = () => {
     <div className={styles.container}>
       <div>
         <input className={styles.input} type="text" />
-        <Link to="/searchresult">
-          <button className={styles.button}>Search</button>
+        <Link to="/search/:searchPhrase">
+          <button class="btn btn-success">Search</button>
         </Link>
       </div>
       {user && (
         <div>
-          <Link to="/addAds">
-            <button className={styles.button}>Add Ads</button>
+          <Link to="/ad/add">
+            <button class="btn btn-primary">Add Ads</button>
           </Link>
         </div>
       )}
