@@ -9,7 +9,7 @@ const NavBar = () => {
 
     return (
         <Navbar bg="dark" variant="dark" expand="lg" className="mt-4 mb-4 rounded d-flex justify-content-between">
-            <NavbarBrand className="justify-content-start px-3" href="/">Ads App</NavbarBrand>
+            <NavbarBrand className="justify-content-start px-3">Ads App</NavbarBrand>
                 <Nav className="flex-sm-column flex-md-row px-3">
                     <ul className={styles.nav_links}>
                         <li>
