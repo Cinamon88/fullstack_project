@@ -1,4 +1,4 @@
-import { API_URL } from '../../../../src/config';
+import { API_URL } from '../../../config';
 import { logOut } from "../../../redux/usersRedux";
 import { useDispatch } from "react-redux";
 import { useEffect } from "react";
@@ -12,7 +12,7 @@ const Logout = () => {
         method: 'DELETE',
     };
 
-    fetch(`${API_URL}/logout`, options)
+    fetch(`${API_URL}/auth/logout`, options)
         .then(res => {
             dispatch(logOut());
         })
