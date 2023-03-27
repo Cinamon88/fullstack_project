@@ -5,7 +5,7 @@ export const getUser = ({ user }) => user;
 // actions
 const createActionName = (actionName) => `app/users/${actionName}`;
 const LOG_IN = createActionName('LOG_IN');
-const LOG_OUT = createActionName('LOG_IN');
+const LOG_OUT = createActionName('LOG_OUT');
 
 // action creators
 export const logIn = payload => ({
