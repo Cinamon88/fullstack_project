@@ -22,7 +22,6 @@ exports.getAdById = async (req, res) => {
 
 exports.createNewAd = async (req, res) => {
   const { title, content, date, price, location } = req.body;
-  const photo = req.file;
 
   try {
     const fileType = photo ? await getImageFileType(photo) : 'unknown'
@@ -38,17 +37,17 @@ exports.createNewAd = async (req, res) => {
         date: date,
         price: price,
         location: location,
-        photo: photo.filename,
+        photo: req.file.filename,
         user: req.session.user
       });
       await newAd.save();
       res.json({ message: 'Created new ad' });
     } else {
-      fs.unlinkSync(`./public/uploads/${photo.filename}`);
+      fs.unlinkSync(`./public/uploads/${req.file.filename}`);
       res.status(400).send({ message: 'Bad request' });
     }
   } catch (err) {
-    fs.unlinkSync(`./public/uploads/${photo.filename}`);
+    fs.unlinkSync(`./public/uploads/${req.file.filename}`);
     res.status(500).send({ message: err.message });
   }
 };

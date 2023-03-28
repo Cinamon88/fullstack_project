@@ -31,7 +31,7 @@ const AddAds = () => {
     navigate('/');
   };
 
-  return <AdForm action={handleSubmit} actionText='Add new ad' />;
+  return <AdForm action={handleSubmit} actionText='Add new' />;
 };
 
 export default AddAds;
