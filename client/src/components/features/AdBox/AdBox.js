@@ -8,15 +8,15 @@ import { IMGS_URL } from '../../../config';
 import { useSelector } from 'react-redux';
 import { getUser } from '../../../redux/usersRedux';
 
-const AdBox = ({ title, price, location, image, _id, user }) => {
+const AdBox = ({ title, price, location, photo, _id, user }) => {
   const loggedUser = useSelector(getUser);
 
   return (
     <Card className={styles.card_wrapper}>
       <Card.Img
         variant='top'
-        src={IMGS_URL + image}
-        className={styles.card_image}
+        src={IMGS_URL + photo}
+        className={styles.card_photo}
       />
       <Card.Body>
         <div className={styles.body}>

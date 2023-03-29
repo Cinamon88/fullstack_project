@@ -21,34 +21,33 @@ exports.getAdById = async (req, res) => {
 };
 
 exports.createNewAd = async (req, res) => {
-  const { title, content, date, price, location } = req.body;
-
   try {
-    const fileType = photo ? await getImageFileType(photo) : 'unknown'
+    const fileType = req.file ? await getImageFileType(req.file) : 'unknown';
+    const imageExtensions = ['image/png', 'image/jpeg', 'image/gif'];
+    const { title, content, date, price, location } = req.body;
 
-    if (
-      title && content && date &&
-      price && location && photo &&
-      ['image/png', 'image/jpeg', 'image/gif'].includes(fileType)
-    ) {
-      const newAd = new Ad({
-        title: title,
-        content: content,
-        date: date,
-        price: price,
-        location: location,
-        photo: req.file.filename,
-        user: req.session.user
-      });
-      await newAd.save();
-      res.json({ message: 'Created new ad' });
+    if(title.length > 10 && 
+      title.length < 50 && 
+      content.length > 20 && 
+      content.length < 1000 && 
+      imageExtensions.includes(fileType)) {
+      const ad = new Advert({ title, 
+        content, 
+        date, 
+        photo: req.file.filename, 
+        price, 
+        location, 
+        seller: req.session.userId });
+      await ad.save();
+      res.json( ad );  
     } else {
-      fs.unlinkSync(`./public/uploads/${req.file.filename}`);
-      res.status(400).send({ message: 'Bad request' });
+      fs.unlinkSync(req.file.path);
+      res.status(500).json({ message: 'Title or content have wrong amount of characters' });
     }
-  } catch (err) {
-    fs.unlinkSync(`./public/uploads/${req.file.filename}`);
-    res.status(500).send({ message: err.message });
+  }
+  catch(err) {
+    fs.unlinkSync(req.file.path);
+    res.status(500).json({ message: err });
   }
 };
 

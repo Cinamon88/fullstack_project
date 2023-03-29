@@ -13,9 +13,9 @@ const AddAds = () => {
 
     const formData = new FormData();
     formData.append('title', ad.title);
-    formData.append('description', ad.description);
+    formData.append('content', ad.content);
     formData.append('price', ad.price);
-    formData.append('image', ad.image);
+    formData.append('photo', ad.photo);
     formData.append('location', ad.location);
     formData.append('date', ad.date);
     formData.append('user', ad.user);
